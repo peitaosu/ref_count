@@ -10,7 +10,7 @@ class ReferenceManager():
             self.config_file = config_file
         if not os.path.isfile(self.config_file):
             print("[Error]: {} is not exists.".format(self.config_file))
-            return
+            sys.exit(-1)
         with open(self.config_file) as in_file:
             self.config = json.load(in_file)
 
