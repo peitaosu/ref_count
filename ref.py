@@ -14,8 +14,12 @@ class ReferenceManager():
         with open(self.config_file) as in_file:
             self.config = json.load(in_file)
 
-    def AddReferences(self):
+    def _add_count_in_registry(self, component, product, file):
         pass
+
+    def AddReferences(self):
+        for reference in self.config["References"]:
+            self._add_count_in_registry(reference, self.config["ProductCode"], self.config["References"][reference]["File"])
 
     def ReduceReferences(self):
         pass
