@@ -1,4 +1,5 @@
-import os, sys, json
+import os, sys, json, winreg
+from utils import reformat_guid
 
 class ReferenceManager():
     def __init__(self):
@@ -15,7 +16,9 @@ class ReferenceManager():
             self.config = json.load(in_file)
 
     def _add_count_in_registry(self, component, product, file):
-        pass
+        component_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Installer\\UserData\\S-1-5-18\\Components\\" + reformat_guid(component), 0, winreg.KEY_WRITE)
+        winreg.SetValueEx(component_key, reformat_guid(product), 0, winreg.REG_SZ, file)
+        winreg.CloseKey(component_key)
 
     def AddReferences(self):
         for reference in self.config["References"]:
