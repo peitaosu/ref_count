@@ -26,7 +26,8 @@ class ReferenceManager():
 
     def AddReferences(self):
         for reference in self.config["References"]:
-            self._add_count_in_registry(reference, self.config["ProductCode"], self.config["References"][reference]["File"])
+            if not self._add_count_in_registry(reference, self.config["ProductCode"], self.config["References"][reference]["File"]):
+                print("[Error]: Adding reference count for {} failed.".format(self.config["References"][reference]["File"]))
 
     def ReduceReferences(self):
         pass
