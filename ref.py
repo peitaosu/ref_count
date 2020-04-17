@@ -24,6 +24,15 @@ class ReferenceManager():
         except WindowsError:
             return False
 
+    def _delete_count_in_registry(self, component, product):
+        try:
+            component_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Installer\\UserData\\S-1-5-18\\Components\\" + reformat_guid(component), 0, winreg.KEY_WRITE)
+            winreg.DeleteValue(component_key, reformat_guid(product)) 
+            winreg.CloseKey(component_key)
+            return True
+        except WindowsError:
+            return False
+        
     def AddReferences(self):
         for reference in self.config["References"]:
             if not self._add_count_in_registry(reference, self.config["ProductCode"], self.config["References"][reference]["File"]):
