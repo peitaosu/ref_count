@@ -33,6 +33,16 @@ class ReferenceManager():
         except WindowsError:
             return False
 
+    def _get_count_in_registry(self, component):
+        component_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Installer\\UserData\\S-1-5-18\\Components\\" + reformat_guid(component))
+        count = 0
+        try:
+            while 1:
+                name, value, type = winreg.EnumValue(component_key, count)
+                count = count + 1
+        except WindowsError:
+            return count
+
     def _delete_count_in_registry(self, component, product):
         try:
             component_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Installer\\UserData\\S-1-5-18\\Components\\" + reformat_guid(component), 0, winreg.KEY_WRITE)
