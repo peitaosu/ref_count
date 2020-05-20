@@ -63,4 +63,8 @@ class ReferenceManager():
                 print("[Error]: Reduce reference count for {} failed.".format(self.config["References"][reference]["File"]))
 
     def GetListToDelete(self):
-        pass
+        to_delete = []
+        for reference in self.config["References"]:
+            if _get_count_in_registry(reference) == 0:
+                to_delete.append(reference)
+        return to_delete
