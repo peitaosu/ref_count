@@ -68,3 +68,12 @@ class ReferenceManager():
             if _get_count_in_registry(reference) == 0:
                 to_delete.append(reference)
         return to_delete
+    
+    def Install(self):
+        self.AddReferences()
+    
+    def Uninstall(self):
+        self.ReduceReferences()
+        to_delete = self.GetListToDelete()
+        for to_delete_item in to_delete:
+            os.remove(self.config["References"][to_delete_item]["File"])
