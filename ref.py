@@ -1,5 +1,6 @@
 import os, sys, json, winreg
 from utils import reformat_guid
+import win32com.client
 
 class ReferenceManager():
     def __init__(self):
@@ -52,6 +53,12 @@ class ReferenceManager():
         except WindowsError:
             return False
         
+    def _get_knownfolderid(self, folder):
+        KNOWNFOLDERID = {
+            "[{ProgramFilesX64}]": shellcon.FOLDERID_ProgramFilesX64
+        }
+        return shell.SHGetFolderPath(0, KNOWNFOLDERID[folder], None, 0)
+
     def AddReferences(self):
         for reference in self.config["References"]:
             if not self._add_count_in_registry(reference, self.config["ProductCode"], self.config["References"][reference]["File"]):
