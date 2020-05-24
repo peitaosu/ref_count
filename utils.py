@@ -1,3 +1,5 @@
+import win32com.client
+
 def reformat_guid(in_guid, rule):
     out_guid = ""
     if rule == "msi_component":
@@ -14,3 +16,9 @@ def reformat_guid(in_guid, rule):
                  in_guid[33:35][::-1] + \
                  in_guid[35:37][::-1]
     return out_guid
+
+def _get_knownfolderid(self, folder):
+    KNOWNFOLDERID = {
+        "[{ProgramFilesX64}]": shellcon.FOLDERID_ProgramFilesX64
+    }
+    return shell.SHGetFolderPath(0, KNOWNFOLDERID[folder], None, 0)

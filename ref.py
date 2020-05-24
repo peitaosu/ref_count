@@ -1,6 +1,6 @@
 import os, sys, json, winreg, re
 from utils import reformat_guid
-import win32com.client
+
 
 class ReferenceManager():
     def __init__(self):
@@ -20,7 +20,7 @@ class ReferenceManager():
         try:
             component_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Installer\\UserData\\S-1-5-18\\Components\\" + reformat_guid(component), 0, winreg.KEY_WRITE)
             for match in re.findall(r'(\[\{(\w+)\}\])', file):
-                file = file.replace(match[0], self._get_knownfolderid(match[1]))
+                file = file.replace(match[0], _get_knownfolderid(match[1]))
             winreg.SetValueEx(component_key, reformat_guid(product), 0, winreg.REG_SZ, file)
             winreg.CloseKey(component_key)
             return True
@@ -55,11 +55,6 @@ class ReferenceManager():
         except WindowsError:
             return False
         
-    def _get_knownfolderid(self, folder):
-        KNOWNFOLDERID = {
-            "[{ProgramFilesX64}]": shellcon.FOLDERID_ProgramFilesX64
-        }
-        return shell.SHGetFolderPath(0, KNOWNFOLDERID[folder], None, 0)
 
     def AddReferences(self):
         for reference in self.config["References"]:
