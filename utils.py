@@ -17,7 +17,7 @@ def reformat_guid(in_guid, rule):
                  in_guid[35:37][::-1]
     return out_guid
 
-def _get_knownfolderid(self, folder):
+def get_knownfolderid(self, folder):
     KNOWNFOLDERID = {
         "[{ProgramFilesX64}]": shellcon.FOLDERID_ProgramFilesX64
     }

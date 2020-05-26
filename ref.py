@@ -20,7 +20,7 @@ class ReferenceManager():
         try:
             component_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Installer\\UserData\\S-1-5-18\\Components\\" + reformat_guid(component), 0, winreg.KEY_WRITE)
             for match in re.findall(r'(\[\{(\w+)\}\])', file):
-                file = file.replace(match[0], _get_knownfolderid(match[1]))
+                file = file.replace(match[0], get_knownfolderid(match[1]))
             winreg.SetValueEx(component_key, reformat_guid(product), 0, winreg.REG_SZ, file)
             winreg.CloseKey(component_key)
             return True
