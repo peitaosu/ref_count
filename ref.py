@@ -81,3 +81,7 @@ class ReferenceManager():
         to_delete = self.GetListToDelete()
         for to_delete_item in to_delete:
             os.remove(self.config["References"][to_delete_item]["File"])
+
+if __name__=="__main__":
+    refman = ReferenceManager()
+    refman.Install()
