@@ -84,4 +84,5 @@ class ReferenceManager():
 
 if __name__=="__main__":
     refman = ReferenceManager()
+    refman.LoadConfig()
     refman.Install()
