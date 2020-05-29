@@ -21,7 +21,7 @@ class ReferenceManager():
             component_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Installer\\UserData\\S-1-5-18\\Components\\" + reformat_guid(component), 0, winreg.KEY_WRITE)
             for match in re.findall(r'(\[\{(\w+)\}\])', file):
                 file = file.replace(match[0], get_knownfolderid(match[1]))
-            winreg.SetValueEx(component_key, reformat_guid(product), 0, winreg.REG_SZ, file)
+            winreg.SetValueEx(component_key, reformat_guid(product, "msi_component"), 0, winreg.REG_SZ, file)
             winreg.CloseKey(component_key)
             return True
         except WindowsError:
@@ -30,7 +30,7 @@ class ReferenceManager():
     def _reduce_count_in_registry(self, component, product):
         try:
             component_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Installer\\UserData\\S-1-5-18\\Components\\" + reformat_guid(component), 0, winreg.KEY_WRITE)
-            winreg.DeleteValue(component_key, reformat_guid(product))
+            winreg.DeleteValue(component_key, reformat_guid(product, "msi_component"))
             winreg.CloseKey(component_key)
             return True
         except WindowsError:
@@ -49,7 +49,7 @@ class ReferenceManager():
     def _delete_count_in_registry(self, component, product):
         try:
             component_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Installer\\UserData\\S-1-5-18\\Components\\" + reformat_guid(component), 0, winreg.KEY_WRITE)
-            winreg.DeleteValue(component_key, reformat_guid(product)) 
+            winreg.DeleteValue(component_key, reformat_guid(product, "msi_component")) 
             winreg.CloseKey(component_key)
             return True
         except WindowsError:
