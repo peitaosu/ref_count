@@ -15,6 +15,7 @@ def reformat_guid(in_guid, rule):
                  in_guid[31:33][::-1] + \
                  in_guid[33:35][::-1] + \
                  in_guid[35:37][::-1]
+    print("reformating GUID from {} to {}.".format(in_guid, out_guid))
     return out_guid
 
 def get_knownfolderid(self, folder):
