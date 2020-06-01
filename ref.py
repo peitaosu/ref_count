@@ -24,7 +24,8 @@ class ReferenceManager():
             winreg.SetValueEx(component_key, reformat_guid(product, "msi_component"), 0, winreg.REG_SZ, file)
             winreg.CloseKey(component_key)
             return True
-        except WindowsError:
+        except WindowsError as e:
+            print(e)
             return False
 
     def _reduce_count_in_registry(self, component, product):
@@ -33,7 +34,8 @@ class ReferenceManager():
             winreg.DeleteValue(component_key, reformat_guid(product, "msi_component"))
             winreg.CloseKey(component_key)
             return True
-        except WindowsError:
+        except WindowsError as e:
+            print(e)
             return False
 
     def _get_count_in_registry(self, component):
@@ -43,7 +45,8 @@ class ReferenceManager():
             while 1:
                 name, value, type = winreg.EnumValue(component_key, count)
                 count = count + 1
-        except WindowsError:
+        except WindowsError as e:
+            print(e)
             return count
 
     def _delete_count_in_registry(self, component, product):
@@ -52,7 +55,8 @@ class ReferenceManager():
             winreg.DeleteValue(component_key, reformat_guid(product, "msi_component")) 
             winreg.CloseKey(component_key)
             return True
-        except WindowsError:
+        except WindowsError as e:
+            print(e)
             return False
         
 
