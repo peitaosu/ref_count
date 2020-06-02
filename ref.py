@@ -62,13 +62,15 @@ class ReferenceManager():
 
     def AddReferences(self):
         for reference in self.config["References"]:
+            print("[Info]: Adding reference count for {}.".format(self.config["References"][reference]["File"]))
             if not self._add_count_in_registry(reference, self.config["ProductCode"], self.config["References"][reference]["File"]):
                 print("[Error]: Adding reference count for {} failed.".format(self.config["References"][reference]["File"]))
 
     def ReduceReferences(self):
         for reference in self.config["References"]:
+            print("[Info]: Reducing reference count for {}.".format(self.config["References"][reference]["File"]))
             if not self._reduce_count_in_registry(reference, self.config["ProductCode"]):
-                print("[Error]: Reduce reference count for {} failed.".format(self.config["References"][reference]["File"]))
+                print("[Error]: Reducing reference count for {} failed.".format(self.config["References"][reference]["File"]))
 
     def GetListToDelete(self):
         to_delete = []
