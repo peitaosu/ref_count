@@ -1,4 +1,5 @@
 import win32com.client
+from win32com.shell import shellcon, shell
 
 def reformat_guid(in_guid, rule):
     out_guid = ""
@@ -18,7 +19,7 @@ def reformat_guid(in_guid, rule):
     print("reformating GUID from {} to {}.".format(in_guid, out_guid))
     return out_guid
 
-def get_knownfolderid(self, folder):
+def get_knownfolderid(folder):
     KNOWNFOLDERID = {
         "[{ProgramFilesX64}]": shellcon.FOLDERID_ProgramFilesX64
     }

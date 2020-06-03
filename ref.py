@@ -1,5 +1,5 @@
 import os, sys, json, winreg, re
-from utils import reformat_guid
+from utils import reformat_guid, get_knownfolderid
 
 
 class ReferenceManager():
@@ -19,14 +19,13 @@ class ReferenceManager():
     def _add_count_in_registry(self, component, product, file):
         try:
             component_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Installer\\UserData\\S-1-5-18\\Components\\" + reformat_guid(product, "msi_component"), 0, winreg.KEY_WRITE)
-            for match in re.findall(r'(\[\{(\w+)\}\])', file):
-                file = file.replace(match[0], get_knownfolderid(match[1]))
-            winreg.SetValueEx(component_key, reformat_guid(product, "msi_component"), 0, winreg.REG_SZ, file)
-            winreg.CloseKey(component_key)
-            return True
-        except WindowsError as e:
-            print(e)
-            return False
+        except WindowsError:
+            component_key = winreg.CreateKey(winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Installer\\UserData\\S-1-5-18\\Components\\" + reformat_guid(product, "msi_component"))
+        for match in re.findall(r'(\[\{(\w+)\}\])', file):
+            file = file.replace(match[0], get_knownfolderid(match[1]))
+        winreg.SetValueEx(component_key, reformat_guid(product, "msi_component"), 0, winreg.REG_SZ, file)
+        winreg.CloseKey(component_key)
+        return True
 
     def _reduce_count_in_registry(self, component, product):
         try:
@@ -51,7 +50,7 @@ class ReferenceManager():
 
     def _delete_count_in_registry(self, component, product):
         try:
-            component_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Installer\\UserData\\S-1-5-18\\Components\\" + reformat_guid(product, "msi_component"), 0, winreg.KEY_WRITE)
+            component_key = winreg.OpenKey(HKEY_LOCAL_MACHINE, "SOFTWARE\\Autodesk\\" + reformat_guid(product, "msi_component"), 0, winreg.KEY_WRITE)
             winreg.DeleteValue(component_key, reformat_guid(product, "msi_component")) 
             winreg.CloseKey(component_key)
             return True
