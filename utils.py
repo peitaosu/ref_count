@@ -1,5 +1,6 @@
-import win32com.client
-from win32com.shell import shellcon, shell
+import ctypes
+from ctypes import windll, wintypes
+from uuid import UUID
 
 def reformat_guid(in_guid, rule):
     out_guid = ""
@@ -20,7 +21,37 @@ def reformat_guid(in_guid, rule):
     return out_guid
 
 def get_knownfolderid(folder):
-    KNOWNFOLDERID = {
-        "[{ProgramFilesX64}]": shellcon.FOLDERID_ProgramFilesX64
+    class GUID(ctypes.Structure):
+        _fields_ = [
+            ("Data1", wintypes.DWORD),
+            ("Data2", wintypes.WORD),
+            ("Data3", wintypes.WORD),
+            ("Data4", wintypes.BYTE * 8)
+        ] 
+
+        def __init__(self, uuidstr):
+            uuid = UUID(uuidstr)
+            ctypes.Structure.__init__(self)
+            self.Data1, self.Data2, self.Data3, \
+                self.Data4[0], self.Data4[1], rest = uuid.fields
+            for i in range(2, 8):
+                self.Data4[i] = rest>>(8-i-1)*8 & 0xff
+
+    SHGetKnownFolderPath = windll.shell32.SHGetKnownFolderPath
+    SHGetKnownFolderPath.argtypes = [
+        ctypes.POINTER(GUID), wintypes.DWORD,
+        wintypes.HANDLE, ctypes.POINTER(ctypes.c_wchar_p)
+    ]
+
+    def _get_known_folder_path(uuidstr):
+        pathptr = ctypes.c_wchar_p()
+        guid = GUID(uuidstr)
+        if SHGetKnownFolderPath(ctypes.byref(guid), 0, 0, ctypes.byref(pathptr)):
+            raise ctypes.WinError()
+        return pathptr.value
+
+    KNOWNFOLDERID_GUID = {
+        "ProgramFilesX64": "{6D809377-6AF0-444b-8957-A3773F02200E}",
+        "ProgramFilesCommonX64": "{6365D5A7-0F0D-45E5-87F6-0DA56B6A4F7D}"
     }
-    return shell.SHGetFolderPath(0, KNOWNFOLDERID[folder], None, 0)
+    return _get_known_folder_path(KNOWNFOLDERID_GUID[folder])
