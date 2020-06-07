@@ -83,9 +83,7 @@ class ReferenceManager():
     
     def Uninstall(self):
         self.ReduceReferences()
-        to_delete = self.GetListToDelete()
-        for to_delete_item in to_delete:
-            os.remove(self.config["References"][to_delete_item]["File"])
+        return self.GetListToDelete()
 
 if __name__=="__main__":
     refman = ReferenceManager()
