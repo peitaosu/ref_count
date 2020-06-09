@@ -61,6 +61,20 @@ class ReferenceManager():
             print(e)
             return False
         
+    def _remove_files(self, to_delete):
+        for reference in to_delete:
+            file = reference["File"]
+            for match in re.findall(r'(\[\{(\w+)\}\])', file):
+                file = file.replace(match[0], get_knownfolderid(match[1]))
+            os.remove(file)
+            for registry in reference["Registry"]:
+                if len(reference["Registry"][registry]) == 0:
+                    # remove registry key
+                    pass
+                else:
+                    for value in reference["Registry"][registry]:
+                        # remove registry value
+                        pass
 
     def AddReferences(self):
         for reference in self.config["References"]:
