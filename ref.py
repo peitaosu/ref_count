@@ -69,12 +69,18 @@ class ReferenceManager():
             os.remove(file)
             for registry in reference["Registry"]:
                 if len(reference["Registry"][registry]) == 0:
-                    registry_key = winreg.OpenKey(reference["Registry"][registry], 0, winreg.KEY_ALL_ACCESS)
-                    winreg.DeleteKey(registry_key) 
+                    try:
+                        registry_key = winreg.OpenKey(reference["Registry"][registry], 0, winreg.KEY_ALL_ACCESS)
+                        winreg.DeleteKey(registry_key)
+                    except WindowsError as e:
+                        print(e)
                 else:
                     for value in reference["Registry"][registry]:
-                        registry_key = winreg.OpenKey(reference["Registry"][registry], 0, winreg.KEY_ALL_ACCESS)
-                        winreg.DeleteValue(registry_key, value) 
+                        try:
+                            registry_key = winreg.OpenKey(reference["Registry"][registry], 0, winreg.KEY_ALL_ACCESS)
+                            winreg.DeleteValue(registry_key, value)
+                        except WindowsError as e:
+                            print(e)
 
     def AddReferences(self):
         for reference in self.config["References"]:
