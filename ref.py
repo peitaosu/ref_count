@@ -1,4 +1,4 @@
-import os, sys, json, winreg, re
+import os, sys, json, winreg, re, datetime
 from utils import reformat_guid, get_knownfolderid
 
 
@@ -103,11 +103,15 @@ class ReferenceManager():
         return to_delete
     
     def Install(self):
+        print("{}: Install Start ...".format(datetime.datetime.now()))
         self.AddReferences()
+        print("{}: Install End ...".format(datetime.datetime.now()))
     
     def Uninstall(self):
+        print("{}: Uninstall Start ...".format(datetime.datetime.now()))
         self.ReduceReferences()
         return self.GetListToDelete()
+        print("{}: Uninstall End ...".format(datetime.datetime.now()))
 
 if __name__=="__main__":
     refman = ReferenceManager()
