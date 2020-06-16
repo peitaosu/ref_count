@@ -30,7 +30,7 @@ class ReferenceManager():
 
     def _reduce_count_in_registry(self, component, product):
         try:
-            component_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, self.msi_key_string + reformat_guid(component, "msi_component"), 0, winreg.KEY_SET_VALUE)
+            component_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, self.msi_key_string + reformat_guid(component, "msi_component"), 0, winreg.KEY_ALL_ACCESS)
         except WindowsError:
             return True
         try:
