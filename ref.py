@@ -98,7 +98,7 @@ class ReferenceManager():
     def GetListToDelete(self):
         to_delete = []
         for reference in self.config["References"]:
-            if _get_count_in_registry(reference) == 0:
+            if self._get_count_in_registry(reference) == 0:
                 to_delete.append(reference)
         return to_delete
     
@@ -116,4 +116,4 @@ class ReferenceManager():
 if __name__=="__main__":
     refman = ReferenceManager()
     refman.LoadConfig()
-    refman.Install()
+    refman.Uninstall()
