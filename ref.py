@@ -99,7 +99,7 @@ class ReferenceManager():
         to_delete = []
         for reference in self.config["References"]:
             if self._get_count_in_registry(reference) == 0:
-                to_delete.append(reference)
+                to_delete.append(self.config["References"][reference])
         return to_delete
     
     def Install(self):
@@ -110,7 +110,7 @@ class ReferenceManager():
     def Uninstall(self):
         print("{}: Uninstall Start ...".format(datetime.datetime.now()))
         self.ReduceReferences()
-        return self.GetListToDelete()
+        self._remove_files(self.GetListToDelete())
         print("{}: Uninstall End ...".format(datetime.datetime.now()))
 
 if __name__=="__main__":
