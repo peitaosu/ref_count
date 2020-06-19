@@ -1,6 +1,7 @@
 import ctypes
 from ctypes import windll, wintypes
 from uuid import UUID
+import winreg
 
 def reformat_guid(in_guid, rule):
     out_guid = ""
@@ -55,3 +56,13 @@ def get_knownfolderid(folder):
         "ProgramFilesCommonX64": "{6365D5A7-0F0D-45E5-87F6-0DA56B6A4F7D}"
     }
     return _get_known_folder_path(KNOWNFOLDERID_GUID[folder])
+
+def get_registry_root(registry_key):
+    registry_roots = {
+        "HKEY_LOCAL_MACHINE": winreg.HKEY_LOCAL_MACHINE,
+        "HKEY_CURRENT_USER": winreg.HKEY_CURRENT_USER
+    }
+    return registry_roots[registry_key.split("\\")[0]]
+
+def get_registry_key(registry_key):
+    return registry_key[registry_key.find("\\"):-1]
