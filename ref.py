@@ -1,5 +1,5 @@
 import os, sys, json, winreg, re, datetime
-from utils import reformat_guid, get_knownfolderid
+from utils import reformat_guid, get_knownfolderid, get_registry_root, get_registry_key
 
 
 class ReferenceManager():
@@ -54,7 +54,7 @@ class ReferenceManager():
 
     def _delete_count_in_registry(self, component, product):
         try:
-            component_key = winreg.OpenKey(HKEY_LOCAL_MACHINE, "SOFTWARE\\Autodesk\\" + reformat_guid(product, "msi_component"), 0, winreg.KEY_ALL_ACCESS)
+            component_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\Autodesk\\" + reformat_guid(product, "msi_component"), 0, winreg.KEY_ALL_ACCESS)
             winreg.DeleteValue(component_key, reformat_guid(product, "msi_component")) 
             winreg.CloseKey(component_key)
             return True
@@ -71,14 +71,14 @@ class ReferenceManager():
             for registry in reference["Registry"]:
                 if len(reference["Registry"][registry]) == 0:
                     try:
-                        registry_key = winreg.OpenKey(reference["Registry"][registry], 0, winreg.KEY_ALL_ACCESS)
+                        registry_key = winreg.OpenKey(get_registry_root(registry), get_registry_key(registry), 0, winreg.KEY_ALL_ACCESS)
                         winreg.DeleteKey(registry_key)
                     except WindowsError as e:
                         print(e)
                 else:
                     for value in reference["Registry"][registry]:
                         try:
-                            registry_key = winreg.OpenKey(reference["Registry"][registry], 0, winreg.KEY_ALL_ACCESS)
+                            registry_key = winreg.OpenKey(get_registry_root(registry), get_registry_key(registry), 0, winreg.KEY_ALL_ACCESS)
                             winreg.DeleteValue(registry_key, value)
                         except WindowsError as e:
                             print(e)
