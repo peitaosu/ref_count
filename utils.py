@@ -65,4 +65,4 @@ def get_registry_root(registry_key):
     return registry_roots[registry_key.split("\\")[0]]
 
 def get_registry_key(registry_key):
-    return registry_key[registry_key.find("\\"):-1]
+    return registry_key[registry_key.find("\\"):]
