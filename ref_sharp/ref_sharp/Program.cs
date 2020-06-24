@@ -34,6 +34,10 @@ namespace ref_sharp
         private bool _add_count_in_registry(string component, string product, string file)
         {
             RegistryKey component_key = Registry.LocalMachine.OpenSubKey(msi_key_string + component, true);
+            if (component_key == null)
+            {
+                component_key = Registry.LocalMachine.CreateSubKey(msi_key_string + component);
+            }
             component_key.SetValue(product, file);
             component_key.Close();
             return true;
@@ -42,18 +46,28 @@ namespace ref_sharp
         private bool _reduce_count_in_registry(string component, string product)
         {
             RegistryKey component_key = Registry.LocalMachine.OpenSubKey(msi_key_string + component, true);
-            component_key.DeleteValue(product);
+            if (component_key.GetValue(product) != null)
+                component_key.DeleteValue(product);
             component_key.Close();
             return true;
         }
 
         private int _get_count_in_registry(string component)
         {
+            RegistryKey component_key = Registry.LocalMachine.OpenSubKey(msi_key_string + component, true);
+            if(component_key != null)
+                return component_key.ValueCount;
             return 0;
         }
 
         private bool _delete_count_in_registry(string component, string product)
         {
+            RegistryKey component_key = Registry.LocalMachine.OpenSubKey(msi_key_string + component, true);
+            if (component_key != null && component_key.GetValue(product) != null)
+            {
+                component_key.DeleteValue(product);
+                component_key.Close();
+            }
             return true;
         }
 
