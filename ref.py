@@ -54,7 +54,7 @@ class ReferenceManager():
 
     def _delete_count_in_registry(self, component, product):
         try:
-            component_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\Autodesk\\" + reformat_guid(product, "msi_component"), 0, winreg.KEY_ALL_ACCESS)
+            component_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, self.msi_key_string + reformat_guid(product, "msi_component"), 0, winreg.KEY_ALL_ACCESS)
             winreg.DeleteValue(component_key, reformat_guid(product, "msi_component")) 
             winreg.CloseKey(component_key)
             return True
