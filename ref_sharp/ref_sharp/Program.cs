@@ -10,6 +10,7 @@ namespace ref_sharp
     class ReferenceManager
     {
         private string msi_key_string = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Installer\\UserData\\S-1-5-18\\Components\\";
+        private string default_config = "ref.conf";
 
         public void LoadConfig()
         {
