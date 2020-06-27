@@ -1,6 +1,8 @@
 ﻿using Microsoft.Win32;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,9 +14,13 @@ namespace ref_sharp
         private string msi_key_string = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Installer\\UserData\\S-1-5-18\\Components\\";
         private string default_config = "ref.conf";
 
-        public void LoadConfig()
+        public void LoadConfig(string config_file = "ref.conf")
         {
-            
+            using (StreamReader r = new StreamReader(config_file))
+            {
+                string json = r.ReadToEnd();
+                Config config = JsonConvert.DeserializeObject<Config>(json);
+            }
         }
         public bool Install()
         {
@@ -72,6 +78,17 @@ namespace ref_sharp
             return true;
         }
 
+    }
+
+    class Config
+    {
+        string ProductCode;
+        KeyValuePair<string, Reference> References;
+    }
+    class Reference
+    {
+        string File;
+        KeyValuePair<string, List<string>> Registry;
     }
 
     class Program
