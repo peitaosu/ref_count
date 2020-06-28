@@ -82,13 +82,17 @@ namespace ref_sharp
 
     class Config
     {
-        string ProductCode;
-        KeyValuePair<string, Reference> References;
+        [JsonProperty("ProductCode")]
+        public string ProductCode;
+        [JsonProperty("References")]
+        public Dictionary<string, Reference> References;
     }
     class Reference
     {
-        string File;
-        KeyValuePair<string, List<string>> Registry;
+        [JsonProperty("File")]
+        public string File;
+        [JsonProperty("Registry")]
+        public Dictionary<string, List<string>> Registry;
     }
 
     class Program
@@ -96,7 +100,7 @@ namespace ref_sharp
         static void Main(string[] args)
         {
             ReferenceManager refman = new ReferenceManager();
-            refman.LoadConfig();
+            refman.LoadConfig(args[0]);
             refman.Install();
             refman.Uninstall();
         }
