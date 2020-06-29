@@ -12,14 +12,14 @@ namespace ref_sharp
     class ReferenceManager
     {
         private string msi_key_string = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Installer\\UserData\\S-1-5-18\\Components\\";
-        private string default_config = "ref.conf";
+        private Config config = new Config();
 
         public void LoadConfig(string config_file = "ref.conf")
         {
             using (StreamReader r = new StreamReader(config_file))
             {
                 string json = r.ReadToEnd();
-                Config config = JsonConvert.DeserializeObject<Config>(json);
+                this.config = JsonConvert.DeserializeObject<Config>(json);
             }
         }
         public bool Install()
