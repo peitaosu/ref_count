@@ -32,11 +32,18 @@ namespace ref_sharp
         }
         public void AddReferences()
         {
+            foreach(KeyValuePair<string, Reference> reference in this.config.References)
+            {
+                this._add_count_in_registry(reference.Key, this.config.ProductCode, reference.Value.File);
+            }
 
         }
         public void ReduceReferences()
         {
-
+            foreach (KeyValuePair<string, Reference> reference in this.config.References)
+            {
+                this._reduce_count_in_registry(reference.Key, this.config.ProductCode);
+            }
         }
         private bool _add_count_in_registry(string component, string product, string file)
         {
