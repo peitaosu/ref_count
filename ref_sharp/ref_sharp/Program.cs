@@ -108,8 +108,14 @@ namespace ref_sharp
         {
             ReferenceManager refman = new ReferenceManager();
             refman.LoadConfig(args[0]);
+            var install_watch = System.Diagnostics.Stopwatch.StartNew();
             refman.Install();
+            install_watch.Stop();
+            var install_elapsed_ms = install_watch.ElapsedMilliseconds;
+            var uninstall_watch = System.Diagnostics.Stopwatch.StartNew();
             refman.Uninstall();
+            uninstall_watch.Stop();
+            var uninstall_elapsed_ms = uninstall_watch.ElapsedMilliseconds;
         }
     }
 }
