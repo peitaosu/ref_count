@@ -45,6 +45,19 @@ namespace ref_sharp
                 this._reduce_count_in_registry(reference.Key, this.config.ProductCode);
             }
         }
+
+        private string _reverse(string input)
+        {
+            char[] array = input.ToCharArray();
+            Array.Reverse(array);
+            return new string(array);
+        }
+
+        private string _format_guid(string guid)
+        {
+            return this._reverse(guid.Substring(1, 8)) + this._reverse(guid.Substring(10, 4)) + this._reverse(guid.Substring(15, 2)) + this._reverse(guid.Substring(17, 2)) + this._reverse(guid.Substring(20, 2)) + this._reverse(guid.Substring(22, 2)) + this._reverse(guid.Substring(25, 2)) + this._reverse(guid.Substring(27, 2)) + this._reverse(guid.Substring(29, 2)) + this._reverse(guid.Substring(31, 2)) + this._reverse(guid.Substring(33, 2)) + this._reverse(guid.Substring(35, 2);
+        }
+
         private bool _add_count_in_registry(string component, string product, string file)
         {
             RegistryKey component_key = Registry.LocalMachine.OpenSubKey(msi_key_string + component, true);
