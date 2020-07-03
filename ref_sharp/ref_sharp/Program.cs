@@ -55,33 +55,33 @@ namespace ref_sharp
 
         private string _format_guid(string guid)
         {
-            return this._reverse(guid.Substring(1, 8)) + this._reverse(guid.Substring(10, 4)) + this._reverse(guid.Substring(15, 2)) + this._reverse(guid.Substring(17, 2)) + this._reverse(guid.Substring(20, 2)) + this._reverse(guid.Substring(22, 2)) + this._reverse(guid.Substring(25, 2)) + this._reverse(guid.Substring(27, 2)) + this._reverse(guid.Substring(29, 2)) + this._reverse(guid.Substring(31, 2)) + this._reverse(guid.Substring(33, 2)) + this._reverse(guid.Substring(35, 2);
+            return this._reverse(guid.Substring(1, 8)) + this._reverse(guid.Substring(10, 4)) + this._reverse(guid.Substring(15, 2)) + this._reverse(guid.Substring(17, 2)) + this._reverse(guid.Substring(20, 2)) + this._reverse(guid.Substring(22, 2)) + this._reverse(guid.Substring(25, 2)) + this._reverse(guid.Substring(27, 2)) + this._reverse(guid.Substring(29, 2)) + this._reverse(guid.Substring(31, 2)) + this._reverse(guid.Substring(33, 2)) + this._reverse(guid.Substring(35, 2));
         }
 
         private bool _add_count_in_registry(string component, string product, string file)
         {
-            RegistryKey component_key = Registry.LocalMachine.OpenSubKey(msi_key_string + component, true);
+            RegistryKey component_key = Registry.LocalMachine.OpenSubKey(msi_key_string + this._format_guid(component), true);
             if (component_key == null)
             {
-                component_key = Registry.LocalMachine.CreateSubKey(msi_key_string + component);
+                component_key = Registry.LocalMachine.CreateSubKey(msi_key_string + this._format_guid(component));
             }
-            component_key.SetValue(product, file);
+            component_key.SetValue(this._format_guid(product), file);
             component_key.Close();
             return true;
         }
 
         private bool _reduce_count_in_registry(string component, string product)
         {
-            RegistryKey component_key = Registry.LocalMachine.OpenSubKey(msi_key_string + component, true);
-            if (component_key.GetValue(product) != null)
-                component_key.DeleteValue(product);
+            RegistryKey component_key = Registry.LocalMachine.OpenSubKey(msi_key_string + this._format_guid(component), true);
+            if (component_key.GetValue(this._format_guid(product)) != null)
+                component_key.DeleteValue(this._format_guid(product));
             component_key.Close();
             return true;
         }
 
         private int _get_count_in_registry(string component)
         {
-            RegistryKey component_key = Registry.LocalMachine.OpenSubKey(msi_key_string + component, true);
+            RegistryKey component_key = Registry.LocalMachine.OpenSubKey(msi_key_string + this._format_guid(component), true);
             if(component_key != null)
                 return component_key.ValueCount;
             return 0;
@@ -89,10 +89,10 @@ namespace ref_sharp
 
         private bool _delete_count_in_registry(string component, string product)
         {
-            RegistryKey component_key = Registry.LocalMachine.OpenSubKey(msi_key_string + component, true);
-            if (component_key != null && component_key.GetValue(product) != null)
+            RegistryKey component_key = Registry.LocalMachine.OpenSubKey(msi_key_string + this._format_guid(component), true);
+            if (component_key != null && component_key.GetValue(this._format_guid(product)) != null)
             {
-                component_key.DeleteValue(product);
+                component_key.DeleteValue(this._format_guid(product));
                 component_key.Close();
             }
             return true;
