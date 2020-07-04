@@ -46,6 +46,15 @@ namespace ref_sharp
             }
         }
 
+        private void _remove_files(List<KeyValuePair<string, Reference>> references)
+        {
+            foreach(KeyValuePair<string, Reference> reference in references)
+            {
+                string file = reference.Value.File;
+                if (File.Exists(file))
+                    File.Delete(file);
+            }
+        }
         private string _reverse(string input)
         {
             char[] array = input.ToCharArray();
