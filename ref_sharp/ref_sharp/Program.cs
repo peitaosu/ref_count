@@ -79,13 +79,14 @@ namespace ref_sharp
             return true;
         }
 
-        private bool _reduce_count_in_registry(string component, string product)
+        private int _reduce_count_in_registry(string component, string product)
         {
             RegistryKey component_key = Registry.LocalMachine.OpenSubKey(msi_key_string + this._format_guid(component), true);
             if (component_key.GetValue(this._format_guid(product)) != null)
                 component_key.DeleteValue(this._format_guid(product));
+            int remain_count = component_key.ValueCount;
             component_key.Close();
-            return true;
+            return remain_count;
         }
 
         private int _get_count_in_registry(string component)
