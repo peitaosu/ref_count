@@ -24,10 +24,12 @@ namespace ref_sharp
         }
         public bool Install()
         {
+            AddReferences();
             return true;
         }
         public bool Uninstall()
         {
+            ReduceReferences();
             return true;
         }
         public void AddReferences()
@@ -42,18 +44,16 @@ namespace ref_sharp
         {
             foreach (KeyValuePair<string, Reference> reference in this.config.References)
             {
-                this._reduce_count_in_registry(reference.Key, this.config.ProductCode);
+                if(this._reduce_count_in_registry(reference.Key, this.config.ProductCode) == 0)
+                    _remove_file(reference);
             }
         }
 
-        private void _remove_files(List<KeyValuePair<string, Reference>> references)
+        private void _remove_file(KeyValuePair<string, Reference> reference)
         {
-            foreach(KeyValuePair<string, Reference> reference in references)
-            {
-                string file = reference.Value.File;
-                if (File.Exists(file))
-                    File.Delete(file);
-            }
+            string file = reference.Value.File;
+            if (File.Exists(file))
+                File.Delete(file);
         }
         private string _reverse(string input)
         {
