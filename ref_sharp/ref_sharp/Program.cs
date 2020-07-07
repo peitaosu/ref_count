@@ -24,14 +24,29 @@ namespace ref_sharp
         }
         public bool Install()
         {
-            AddReferences();
-            return true;
+            try
+            {
+                this.AddReferences();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
         public bool Uninstall()
         {
-            ReduceReferences();
-            return true;
+            try
+            {
+                this.ReduceReferences();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
+
         public void AddReferences()
         {
             foreach(KeyValuePair<string, Reference> reference in this.config.References)
@@ -45,7 +60,7 @@ namespace ref_sharp
             foreach (KeyValuePair<string, Reference> reference in this.config.References)
             {
                 if(this._reduce_count_in_registry(reference.Key, this.config.ProductCode) == 0)
-                    _remove_file(reference);
+                    this._remove_file(reference);
             }
         }
 
