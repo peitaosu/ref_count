@@ -123,9 +123,22 @@ namespace ref_sharp
             return true;
         }
 
-    }
+        private RegistryKey _get_registry_root(string registry_key)
+        {
+            switch (registry_key)
+            {
+                case "HKEY_LOCAL_MACHINE":
+                    return Registry.LocalMachine;
+                case "HKEY_CURRENT_USER":
+                    return Registry.CurrentUser;
+                default:
+                    return Registry.LocalMachine;
+            }
+        }
 
-    class Config
+}
+
+class Config
     {
         [JsonProperty("ProductCode")]
         public string ProductCode;
