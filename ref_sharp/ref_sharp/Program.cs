@@ -136,6 +136,17 @@ namespace ref_sharp
             }
         }
 
+        private string _get_knownfolderid(string folder)
+        {
+            switch(folder)
+            {
+                case "ProgramFilesX64":
+                    return Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+                default:
+                    return null;
+            }
+        }
+
 }
 
 class Config
