@@ -131,6 +131,8 @@ namespace ref_sharp
                     return Registry.LocalMachine;
                 case "HKEY_CURRENT_USER":
                     return Registry.CurrentUser;
+                case "HKEY_CLASSES_ROOT":
+                    return Registry.ClassesRoot;
                 default:
                     return Registry.LocalMachine;
             }
