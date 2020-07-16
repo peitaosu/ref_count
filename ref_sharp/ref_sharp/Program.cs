@@ -68,12 +68,12 @@ namespace ref_sharp
         private void _remove_file(KeyValuePair<string, Reference> reference)
         {
             string file = reference.Value.File;
-            Regex rx = new Regex(@"(\[\{(w+)\}\])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            Regex rx = new Regex(@"(\[\{(\w+)\}\])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
             MatchCollection matches = rx.Matches(file);
             foreach (Match match in matches)
             {
                 GroupCollection groups = match.Groups;
-                file.Replace(groups[0].Value, this._get_knownfolderid(groups[1].Value));
+                file = file.Replace(groups[0].Value, this._get_knownfolderid(groups[1].Value));
             }
             if (File.Exists(file))
                 File.Delete(file);
