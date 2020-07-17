@@ -154,9 +154,9 @@ namespace ref_sharp
                     return Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
                 case "ProgramFilesX86":
                     return Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
-                case "CommonProgramFilesX64":
+                case "ProgramFilesCommonX64":
                     return Environment.GetFolderPath(Environment.SpecialFolder.CommonProgramFiles);
-                case "CommonProgramFilesX86":
+                case "ProgramFilesCommonX86":
                     return Environment.GetFolderPath(Environment.SpecialFolder.CommonProgramFilesX86);
                 case "AppData":
                     return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
