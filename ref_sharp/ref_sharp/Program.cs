@@ -76,7 +76,18 @@ namespace ref_sharp
                 file = file.Replace(groups[0].Value, this._get_knownfolderid(groups[1].Value));
             }
             if (File.Exists(file))
-                File.Delete(file);
+            {
+                try
+                {
+                    File.Delete(file);
+                }
+                catch
+                {
+                    Console.WriteLine("Deleting {0} failed.", file);
+                }
+                
+            }
+                
         }
         private string _reverse(string input)
         {
