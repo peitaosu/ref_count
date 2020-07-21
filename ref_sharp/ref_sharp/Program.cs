@@ -70,6 +70,8 @@ namespace ref_sharp
                             if(registry.Value.Count() == 0)
                             {
                                 //remove registry key
+                                RegistryKey key = this._get_registry_root(registry.Key.Split('\\')[0]).OpenSubKey(registry.Key.Substring(registry.Key.IndexOf("\\"), registry.Key.LastIndexOf("\\")), true);
+                                key.DeleteSubKey(registry.Key.Split('\\')[-1]);
                             }
                             else
                             {
