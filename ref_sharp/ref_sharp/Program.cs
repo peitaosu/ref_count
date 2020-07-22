@@ -81,6 +81,10 @@ namespace ref_sharp
                                 foreach(var value in registry.Value)
                                 {
                                     //remove registry value
+                                    string root = registry.Key.Split('\\')[0];
+                                    string subkey = registry.Key.Substring(registry.Key.IndexOf("\\") + 1);
+                                    RegistryKey key = this._get_registry_root(root).OpenSubKey(subkey, true);
+                                    key.DeleteValue(value);
                                 }
                             }
                         }
