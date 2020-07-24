@@ -84,7 +84,7 @@ namespace ref_sharp
                                     string root = registry.Key.Split('\\')[0];
                                     string subkey = registry.Key.Substring(registry.Key.IndexOf("\\") + 1);
                                     RegistryKey key = this._get_registry_root(root).OpenSubKey(subkey, true);
-                                    key.DeleteValue(value);
+                                    key.DeleteValue(value, false);
                                 }
                             }
                         }
