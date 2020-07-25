@@ -128,7 +128,9 @@ namespace ref_sharp
 
         private string _format_guid(string guid)
         {
-            return this._reverse(guid.Substring(1, 8)) + this._reverse(guid.Substring(10, 4)) + this._reverse(guid.Substring(15, 2)) + this._reverse(guid.Substring(17, 2)) + this._reverse(guid.Substring(20, 2)) + this._reverse(guid.Substring(22, 2)) + this._reverse(guid.Substring(25, 2)) + this._reverse(guid.Substring(27, 2)) + this._reverse(guid.Substring(29, 2)) + this._reverse(guid.Substring(31, 2)) + this._reverse(guid.Substring(33, 2)) + this._reverse(guid.Substring(35, 2));
+            string formated = this._reverse(guid.Substring(1, 8)) + this._reverse(guid.Substring(10, 4)) + this._reverse(guid.Substring(15, 2)) + this._reverse(guid.Substring(17, 2)) + this._reverse(guid.Substring(20, 2)) + this._reverse(guid.Substring(22, 2)) + this._reverse(guid.Substring(25, 2)) + this._reverse(guid.Substring(27, 2)) + this._reverse(guid.Substring(29, 2)) + this._reverse(guid.Substring(31, 2)) + this._reverse(guid.Substring(33, 2)) + this._reverse(guid.Substring(35, 2));
+            Console.WriteLine("Formatting {0} to {1}", guid, formated);
+            return formated;
         }
 
         private bool _add_count_in_registry(string component, string product, string file)
