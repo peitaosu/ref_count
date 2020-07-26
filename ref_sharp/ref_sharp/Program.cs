@@ -138,9 +138,13 @@ namespace ref_sharp
             RegistryKey component_key = Registry.LocalMachine.OpenSubKey(msi_key_string + this._format_guid(component), true);
             if (component_key == null)
             {
-                component_key = Registry.LocalMachine.CreateSubKey(msi_key_string + this._format_guid(component));
+                string key_string = msi_key_string + this._format_guid(component);
+                Console.WriteLine("Creating Registry Key {0}", key_string);
+                component_key = Registry.LocalMachine.CreateSubKey(key_string);
             }
-            component_key.SetValue(this._format_guid(product), file);
+            string key_value = this._format_guid(product);
+            Console.WriteLine("Setting Registry Value {0} to {1}", key_value, file);
+            component_key.SetValue(key_value, file);
             component_key.Close();
             return true;
         }
