@@ -152,8 +152,10 @@ namespace ref_sharp
         private int _reduce_count_in_registry(string component, string product)
         {
             RegistryKey component_key = Registry.LocalMachine.OpenSubKey(msi_key_string + this._format_guid(component), true);
-            if (component_key.GetValue(this._format_guid(product)) != null)
-                component_key.DeleteValue(this._format_guid(product));
+            string key_value = this._format_guid(product);
+            if (component_key.GetValue(key_value) != null)
+                Console.WriteLine("Deleting Registry Value {0}", key_value);
+                component_key.DeleteValue(key_value);
             int remain_count = component_key.ValueCount;
             component_key.Close();
             return remain_count;
