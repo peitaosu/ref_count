@@ -245,10 +245,12 @@ class Config
             refman.Install();
             install_watch.Stop();
             var install_elapsed_ms = install_watch.ElapsedMilliseconds;
+            Console.WriteLine("Total Install Time: {0}", install_elapsed_ms);
             var uninstall_watch = System.Diagnostics.Stopwatch.StartNew();
             refman.Uninstall();
             uninstall_watch.Stop();
             var uninstall_elapsed_ms = uninstall_watch.ElapsedMilliseconds;
+            Console.WriteLine("Total Uninstall Time: {0}", uninstall_elapsed_ms);
         }
     }
 }
