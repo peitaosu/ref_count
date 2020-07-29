@@ -70,6 +70,7 @@ namespace ref_sharp
                             if(registry.Value.Count() == 0)
                             {
                                 //remove registry key
+                                Console.WriteLine("Removing registry key {0}", registry.Key);
                                 string root = registry.Key.Split('\\')[0];
                                 string parent = registry.Key.Substring(registry.Key.IndexOf("\\") + 1, registry.Key.LastIndexOf("\\") - registry.Key.IndexOf("\\") - 1);
                                 string subkey = registry.Key.Split('\\').Last();
@@ -81,6 +82,7 @@ namespace ref_sharp
                                 foreach(var value in registry.Value)
                                 {
                                     //remove registry value
+                                    Console.WriteLine("Removing registry value {0} under key {1}", value, registry.Key);
                                     string root = registry.Key.Split('\\')[0];
                                     string subkey = registry.Key.Substring(registry.Key.IndexOf("\\") + 1);
                                     RegistryKey key = this._get_registry_root(root).OpenSubKey(subkey, true);
