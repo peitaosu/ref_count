@@ -67,7 +67,8 @@ class ReferenceManager():
             file = reference["File"]
             for match in re.findall(r'(\[\{(\w+)\}\])', file):
                 file = file.replace(match[0], get_knownfolderid(match[1]))
-            os.remove(file)
+            if os.path.isfile(file):
+                os.remove(file)
             for registry in reference["Registry"]:
                 if len(reference["Registry"][registry]) == 0:
                     try:
