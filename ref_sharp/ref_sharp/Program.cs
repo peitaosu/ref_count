@@ -111,6 +111,7 @@ namespace ref_sharp
             {
                 try
                 {
+                    Console.WriteLine("Deleting {0}.", file);
                     File.Delete(file);
                 }
                 catch
