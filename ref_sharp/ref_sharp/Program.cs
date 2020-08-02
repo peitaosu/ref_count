@@ -105,7 +105,15 @@ namespace ref_sharp
             foreach (Match match in matches)
             {
                 GroupCollection groups = match.Groups;
-                file = file.Replace(groups[0].Value, this._get_knownfolderid(groups[1].Value));
+                string known_folder = this._get_knownfolderid(groups[1].Value);
+                if(known_folder == null)
+                {
+                    Console.WriteLine("Folder not in {0} known folders list.", groups[1].Value);
+                }
+                else
+                {
+                    file = file.Replace(groups[0].Value, known_folder);
+                }
             }
             if (File.Exists(file))
             {
