@@ -52,7 +52,15 @@ namespace ref_sharp
         {
             foreach(KeyValuePair<string, Reference> reference in this.config.References)
             {
-                this._add_count_in_registry(reference.Key, this.config.ProductCode, reference.Value.File);
+                try
+                {
+                    this._add_count_in_registry(reference.Key, this.config.ProductCode, reference.Value.File);
+                }
+                catch
+                {
+                    Console.WriteLine("Adding reference for {0} failed.", reference.Value.File);
+                }
+                
             }
 
         }
@@ -60,39 +68,45 @@ namespace ref_sharp
         {
             foreach (KeyValuePair<string, Reference> reference in this.config.References)
             {
-                if(this._reduce_count_in_registry(reference.Key, this.config.ProductCode) == 0)
+                try
                 {
-                    this._remove_file(reference);
-                    if(reference.Value.Registry.Count() > 0)
+                    if(this._reduce_count_in_registry(reference.Key, this.config.ProductCode) == 0)
                     {
-                        foreach(var registry in reference.Value.Registry)
+                        this._remove_file(reference);
+                        if(reference.Value.Registry.Count() > 0)
                         {
-                            if(registry.Value.Count() == 0)
+                            foreach(var registry in reference.Value.Registry)
                             {
-                                //remove registry key
-                                Console.WriteLine("Removing registry key {0}", registry.Key);
-                                string root = registry.Key.Split('\\')[0];
-                                string parent = registry.Key.Substring(registry.Key.IndexOf("\\") + 1, registry.Key.LastIndexOf("\\") - registry.Key.IndexOf("\\") - 1);
-                                string subkey = registry.Key.Split('\\').Last();
-                                RegistryKey key = this._get_registry_root(root).OpenSubKey(parent, true);
-                                key.DeleteSubKeyTree(subkey, false);
-                            }
-                            else
-                            {
-                                foreach(var value in registry.Value)
+                                if(registry.Value.Count() == 0)
                                 {
-                                    //remove registry value
-                                    Console.WriteLine("Removing registry value {0} under key {1}", value, registry.Key);
+                                    //remove registry key
+                                    Console.WriteLine("Removing registry key {0}", registry.Key);
                                     string root = registry.Key.Split('\\')[0];
-                                    string subkey = registry.Key.Substring(registry.Key.IndexOf("\\") + 1);
-                                    RegistryKey key = this._get_registry_root(root).OpenSubKey(subkey, true);
-                                    key.DeleteValue(value, false);
+                                    string parent = registry.Key.Substring(registry.Key.IndexOf("\\") + 1, registry.Key.LastIndexOf("\\") - registry.Key.IndexOf("\\") - 1);
+                                    string subkey = registry.Key.Split('\\').Last();
+                                    RegistryKey key = this._get_registry_root(root).OpenSubKey(parent, true);
+                                    key.DeleteSubKeyTree(subkey, false);
+                                }
+                                else
+                                {
+                                    foreach(var value in registry.Value)
+                                    {
+                                        //remove registry value
+                                        Console.WriteLine("Removing registry value {0} under key {1}", value, registry.Key);
+                                        string root = registry.Key.Split('\\')[0];
+                                        string subkey = registry.Key.Substring(registry.Key.IndexOf("\\") + 1);
+                                        RegistryKey key = this._get_registry_root(root).OpenSubKey(subkey, true);
+                                        key.DeleteValue(value, false);
+                                    }
                                 }
                             }
                         }
                     }
                 }
-                    
+                catch
+                {
+                    onsole.WriteLine("Reducing reference for {0} failed.", reference.Key);
+                } 
 
             }
         }
