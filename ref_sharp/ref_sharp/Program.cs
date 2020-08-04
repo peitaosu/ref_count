@@ -105,7 +105,7 @@ namespace ref_sharp
                 }
                 catch
                 {
-                    onsole.WriteLine("Reducing reference for {0} failed.", reference.Key);
+                    Console.WriteLine("Reducing reference for {0} failed.", reference.Key);
                 } 
 
             }
