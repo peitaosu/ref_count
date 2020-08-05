@@ -116,5 +116,8 @@ class ReferenceManager():
 
 if __name__=="__main__":
     refman = ReferenceManager()
-    refman.LoadConfig()
+    if len(sys.argv) > 1:
+        refman.LoadConfig(sys.argv[1])
+    else:
+        refman.LoadConfig()
     refman.Uninstall()

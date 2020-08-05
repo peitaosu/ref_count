@@ -265,7 +265,14 @@ class Config
         static void Main(string[] args)
         {
             ReferenceManager refman = new ReferenceManager();
-            refman.LoadConfig(args[0]);
+            if(args.Length > 0)
+            {
+                refman.LoadConfig(args[0]);
+            }
+            else
+            {
+                refman.LoadConfig();
+            }
             var install_watch = System.Diagnostics.Stopwatch.StartNew();
             refman.Install();
             install_watch.Stop();
