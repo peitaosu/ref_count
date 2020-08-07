@@ -53,7 +53,12 @@ def get_knownfolderid(folder):
 
     KNOWNFOLDERID_GUID = {
         "ProgramFilesX64": "{6D809377-6AF0-444b-8957-A3773F02200E}",
-        "ProgramFilesCommonX64": "{6365D5A7-0F0D-45E5-87F6-0DA56B6A4F7D}"
+        "ProgramFilesCommonX64": "{6365D5A7-0F0D-45E5-87F6-0DA56B6A4F7D}",
+        "ProgramFilesX86": "{7C5A40EF-A0FB-4BFC-874A-C0F2E0B9FA8E}",
+        "ProgramFilesCommonX86": "{DE974D24-D9C6-4D3E-BF91-F4455120B917}",
+        "AppData": "{3EB685DB-65F9-4CF6-A03A-E3EF65729F3D}",
+        "Local AppData": "{F1B32785-6FBA-4FCF-9D55-7B8E7F157091}",
+        "Common AppData": "{559D40A3-A036-40FA-AF61-84CB430A4D34}"
     }
     return _get_known_folder_path(KNOWNFOLDERID_GUID[folder])
 
