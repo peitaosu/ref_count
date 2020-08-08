@@ -60,6 +60,9 @@ def get_knownfolderid(folder):
         "Local AppData": "{F1B32785-6FBA-4FCF-9D55-7B8E7F157091}",
         "Common AppData": "{559D40A3-A036-40FA-AF61-84CB430A4D34}"
     }
+    if folder not in KNOWNFOLDERID_GUID:
+        print("{} is not in not known.".format(folder))
+        return None
     return _get_known_folder_path(KNOWNFOLDERID_GUID[folder])
 
 def get_registry_root(registry_key):
