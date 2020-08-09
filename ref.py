@@ -23,7 +23,9 @@ class ReferenceManager():
         except WindowsError:
             component_key = winreg.CreateKey(winreg.HKEY_LOCAL_MACHINE, self.msi_key_string + reformat_guid(component, "msi_component"))
         for match in re.findall(r'(\[\{(\w+)\}\])', file):
-            file = file.replace(match[0], get_knownfolderid(match[1]))
+            folder_id = get_knownfolderid(match[1])
+            if folder_id:
+                file = file.replace(match[0], folder_id)
         winreg.SetValueEx(component_key, reformat_guid(product, "msi_component"), 0, winreg.REG_SZ, file)
         winreg.CloseKey(component_key)
         return True
@@ -66,7 +68,9 @@ class ReferenceManager():
         for reference in to_delete:
             file = reference["File"]
             for match in re.findall(r'(\[\{(\w+)\}\])', file):
-                file = file.replace(match[0], get_knownfolderid(match[1]))
+                folder_id = get_knownfolderid(match[1])
+                if folder_id:
+                    file = file.replace(match[0], )
             if os.path.isfile(file):
                 os.remove(file)
             for registry in reference["Registry"]:
