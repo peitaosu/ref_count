@@ -19,24 +19,24 @@ class ReferenceManager():
 
     def _add_count_in_registry(self, component, product, file):
         try:
-            component_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,  + reformat_guid(component, "msi_component"), 0, winreg.KEY_SET_VALUE)
+            component_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,  + reformat_guid(component), 0, winreg.KEY_SET_VALUE)
         except WindowsError:
-            component_key = winreg.CreateKey(winreg.HKEY_LOCAL_MACHINE, self.msi_key_string + reformat_guid(component, "msi_component"))
+            component_key = winreg.CreateKey(winreg.HKEY_LOCAL_MACHINE, self.msi_key_string + reformat_guid(component))
         for match in re.findall(r'(\[\{(\w+)\}\])', file):
             folder_id = get_knownfolderid(match[1])
             if folder_id:
                 file = file.replace(match[0], folder_id)
-        winreg.SetValueEx(component_key, reformat_guid(product, "msi_component"), 0, winreg.REG_SZ, file)
+        winreg.SetValueEx(component_key, reformat_guid(product), 0, winreg.REG_SZ, file)
         winreg.CloseKey(component_key)
         return True
 
     def _reduce_count_in_registry(self, component, product):
         try:
-            component_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, self.msi_key_string + reformat_guid(component, "msi_component"), 0, winreg.KEY_ALL_ACCESS)
+            component_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, self.msi_key_string + reformat_guid(component), 0, winreg.KEY_ALL_ACCESS)
         except WindowsError:
             return True
         try:
-            winreg.DeleteValue(component_key, reformat_guid(product, "msi_component"))
+            winreg.DeleteValue(component_key, reformat_guid(product))
             winreg.CloseKey(component_key)
             return True
         except WindowsError as e:
@@ -44,7 +44,7 @@ class ReferenceManager():
             return False
 
     def _get_count_in_registry(self, component):
-        component_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, self.msi_key_string + reformat_guid(component, "msi_component"))
+        component_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, self.msi_key_string + reformat_guid(component))
         count = 0
         try:
             while 1:
@@ -56,8 +56,8 @@ class ReferenceManager():
 
     def _delete_count_in_registry(self, component, product):
         try:
-            component_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, self.msi_key_string + reformat_guid(product, "msi_component"), 0, winreg.KEY_ALL_ACCESS)
-            winreg.DeleteValue(component_key, reformat_guid(product, "msi_component")) 
+            component_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, self.msi_key_string + reformat_guid(product), 0, winreg.KEY_ALL_ACCESS)
+            winreg.DeleteValue(component_key, reformat_guid(product)) 
             winreg.CloseKey(component_key)
             return True
         except WindowsError as e:
