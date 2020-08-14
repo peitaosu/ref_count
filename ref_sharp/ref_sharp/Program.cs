@@ -186,25 +186,6 @@ namespace ref_sharp
             return remain_count;
         }
 
-        private int _get_count_in_registry(string component)
-        {
-            RegistryKey component_key = Registry.LocalMachine.OpenSubKey(msi_key_string + this._format_guid(component), true);
-            if(component_key != null)
-                return component_key.ValueCount;
-            return 0;
-        }
-
-        private bool _delete_count_in_registry(string component, string product)
-        {
-            RegistryKey component_key = Registry.LocalMachine.OpenSubKey(msi_key_string + this._format_guid(component), true);
-            if (component_key != null && component_key.GetValue(this._format_guid(product)) != null)
-            {
-                component_key.DeleteValue(this._format_guid(product));
-                component_key.Close();
-            }
-            return true;
-        }
-
         private RegistryKey _get_registry_root(string registry_key)
         {
             switch (registry_key)
