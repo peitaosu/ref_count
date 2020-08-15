@@ -73,6 +73,8 @@ namespace ref_sharp
                     if(this._reduce_count_in_registry(reference.Key, this.config.ProductCode) == 0)
                     {
                         this._remove_file(reference);
+                        if (reference.Value.Registry == null)
+                            continue;
                         if(reference.Value.Registry.Count() > 0)
                         {
                             foreach(var registry in reference.Value.Registry)
