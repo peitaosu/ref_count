@@ -109,15 +109,21 @@ class ReferenceManager():
         return to_delete
     
     def Install(self):
-        print("{}: Install Start ...".format(datetime.datetime.now()))
+        start_time = datetime.datetime.now()
+        print("{}: Install Start ...".format(start_time))
         self.AddReferences()
-        print("{}: Install End ...".format(datetime.datetime.now()))
+        end_time = datetime.datetime.now()
+        print("{}: Install End ...".format(end_time))
+        print("Total: {}".format(end_time - start_time))
     
     def Uninstall(self):
-        print("{}: Uninstall Start ...".format(datetime.datetime.now()))
+        start_time = datetime.datetime.now()
+        print("{}: Uninstall Start ...".format(start_time))
         self.ReduceReferences()
         self._remove_files(self.GetListToDelete())
-        print("{}: Uninstall End ...".format(datetime.datetime.now()))
+        end_time = datetime.datetime.now()
+        print("{}: Uninstall End ...".format(end_time))
+        print("Total: {}".format(end_time - start_time))
 
 if __name__=="__main__":
     refman = ReferenceManager()
