@@ -18,6 +18,10 @@ This is a demo to show how to handle MSI reference count during install & uninst
                     "Test2"
                 ]
             }
+        },
+        "{13B5D516-1B2F-4999-AC76-D0B4071E2552}": 
+        {
+            "File": "[{ProgramFilesCommonX64}]\\shared2.file"
         }
     }
 }
