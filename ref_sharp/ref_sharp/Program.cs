@@ -12,7 +12,7 @@ namespace ref_sharp
 {
     class ReferenceManager
     {
-        private string msi_key_string = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Installer\\UserData\\S-1-5-18\\Components\\";
+        private const string msi_key_string = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Installer\\UserData\\S-1-5-18\\Components\\";
         private Config config = new Config();
 
         public void LoadConfig(string config_file = "ref.conf")
